@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn } from 'next-auth/react';
-import OTPForm from '@/components/auth/OTPForm';
-import SocialLogins from '@/components/auth/SocialLogins';
+import { signIn } from '@/app/api/auth/next-auth/react';
+import OTPForm from '@/app/api/components/auth/OTPForm';
+import SocialLogins from '@/app/api/components/auth/SocialLogins';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');

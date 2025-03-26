@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { verifyOtp } from '@/lib/auth';
+import { verifyOtp } from '@/app/api/lib/auth';
 
 interface OTPFormProps {
   email: string;
