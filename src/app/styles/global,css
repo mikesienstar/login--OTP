@@ -1,0 +1,103 @@
+/* Based on Corbado styling with SAIMS color scheme */
+:root {
+    --primary: #ff7b1d;
+    --primary-dark: #e56a0f;
+    --primary-light: #fff5ee;
+    --secondary: #1e2b4a;
+    --white: #ffffff;
+    --gray-light: #f8f9fa;
+    --gray: #e9ecef;
+    --gray-dark: #6c757d;
+    --black: #212529;
+    --error: #dc3545;
+    --success: #28a745;
+}
+
+/* Auth container styles */
+.auth-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--secondary);
+}
+
+/* Form styles */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--gray-dark);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--gray);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Button styles */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+/* OTP specific styles */
+.otp-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.otp-inputs {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.otp-inputs input {
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+    font-size: 1.5rem;
+    border: 1px solid var(--gray);
+    border-radius: 4px;
+}
+
+/* Error message */
+.auth-error {
+    color: var(--error);
+    background-color: #f8d7da;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
