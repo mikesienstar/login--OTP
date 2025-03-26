@@ -1,4 +1,4 @@
-import { AuthOptions } from 'next-auth';
+import type { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { sendOtp, verifyOtp } from './email-service';
 
@@ -9,30 +9,37 @@ export const authOptions: AuthOptions = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
-        role: { label: "Role", type: "text" }
+        otp: { label: "OTP", type: "text", optional: true }
       },
       async authorize(credentials) {
         try {
-          // Verify user credentials
-          const user = await verifyCredentials(
-            credentials?.email,
-            credentials?.password,
-            credentials?.role
-          );
-          
-          if (!user) return null;
-          
-          // Send OTP (in real app, implement this)
-          await sendOtp(user.email);
-          
+          // Step 1: Verify email/password (without OTP)
+          if (!credentials?.otp) {
+            const user = await verifyUserCredentials(
+              credentials?.email,
+              credentials?.password
+            );
+            
+            if (!user) return null;
+            
+            await sendOtp(user.email);
+            return { id: user.id, email: user.email, requiresOtp: true };
+          }
+
+          // Step 2: Verify OTP if provided
+          const isValid = await verifyOtp(credentials.email, credentials.otp);
+          if (!isValid) return null;
+
+          // Final: Return full user after OTP verification
           return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            role: user.role
+            id: '123',
+            email: credentials.email,
+            name: 'Verified User',
+            role: 'student' // Set based on your DB lookup
           };
         } catch (error) {
-          throw new Error('Authentication failed');
+          console.error('Authentication error:', error);
+          return null;
         }
       }
     })
@@ -41,12 +48,16 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role;
+        token.requiresOtp = user.requiresOtp;
       }
       return token;
     },
     async session({ session, token }) {
-      if (token?.role) {
+      if (token.role) {
         session.user.role = token.role;
+      }
+      if (token.requiresOtp) {
+        session.requiresOtp = true;
       }
       return session;
     }
@@ -57,11 +68,7 @@ export const authOptions: AuthOptions = {
   }
 };
 
-export async function verifyOtp(email: string, otp: string) {
-  // Implement OTP verification logic
-  // Return user data if valid
-}
-
-export async function sendOtp(email: string) {
-  // Implement OTP sending logic
+async function verifyUserCredentials(email?: string, password?: string) {
+  // Implement your actual credential verification
+  return { id: 'temp-user', email: email || '' };
 }
